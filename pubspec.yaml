@@ -1,0 +1,29 @@
+name: flutter_mediapipe_chat
+description: A Flutter plugin for real-time chat model inference using Google's
+  MediaPipe framework. Supports Android and iOS platforms.
+version: 1.0.0
+homepage: https://github.com/juandpt03/flutter_mediapipe_chat
+repository: https://github.com/juandpt03/flutter_mediapipe_chat
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+  flutter: ">=3.3.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.0.2
+
+dev_dependencies:
+  flutter_lints: ^5.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.example.flutter_mediapipe_chat
+        pluginClass: FlutterMediapipeChatPlugin
+      ios:
+        pluginClass: FlutterMediapipeChatPlugin
