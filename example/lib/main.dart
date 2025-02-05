@@ -2,16 +2,20 @@ import 'dart:async';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mediapipe_chat/flutter_mediapipe_chat.dart';
-import 'package:flutter_mediapipe_chat/models/chat_message.dart';
 import 'package:flutter_mediapipe_chat/models/model_config.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
+class MessageData {
+  final String message;
+  final String sender;
+  MessageData({required this.message, required this.sender});
+}
+
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
-
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -20,12 +24,11 @@ class _MyAppState extends State<MyApp> {
   final FlutterMediapipeChat chat = FlutterMediapipeChat();
   final TextEditingController textController = TextEditingController();
   final ScrollController scrollController = ScrollController();
-
-  List<ChatMessage> messages = [];
+  List<MessageData> messages = [];
   String? modelPath;
   bool isGenerating = false;
   bool isModelLoading = false;
-  StreamSubscription<String?>? chatSubscription;
+  StreamSubscription<String>? chatSubscription;
 
   @override
   void dispose() {
@@ -48,16 +51,13 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _pickModel() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.any,
-    );
-
+    FilePickerResult? result =
+        await FilePicker.platform.pickFiles(type: FileType.any);
     if (result != null) {
       setState(() {
         modelPath = result.files.single.path;
         isModelLoading = true;
       });
-
       ModelConfig config = ModelConfig(
         path: modelPath!,
         temperature: 0.8,
@@ -65,9 +65,7 @@ class _MyAppState extends State<MyApp> {
         topK: 40,
         randomSeed: 1,
       );
-
       await chat.loadModel(config);
-
       setState(() {
         isModelLoading = false;
       });
@@ -76,20 +74,13 @@ class _MyAppState extends State<MyApp> {
 
   void _sendMessage({bool useStreaming = true}) async {
     if (textController.text.isEmpty || isModelLoading || isGenerating) return;
-
     setState(() {
-      messages.add(ChatMessage(
-        message: textController.text,
-        sender: Participant.user,
-        done: true,
-      ));
+      messages.add(MessageData(message: textController.text, sender: "user"));
       isGenerating = true;
     });
-
     final prompt = textController.text;
     textController.clear();
     _scrollToBottom();
-
     if (useStreaming) {
       _startStreamingResponse(prompt);
     } else {
@@ -102,11 +93,7 @@ class _MyAppState extends State<MyApp> {
     chatSubscription = chat.generateResponseStream(prompt).listen((response) {
       if (response.isNotEmpty) {
         setState(() {
-          messages.add(ChatMessage(
-            message: response,
-            sender: Participant.model,
-            done: false,
-          ));
+          messages.add(MessageData(message: response, sender: "model"));
         });
         _scrollToBottom();
       }
@@ -124,11 +111,8 @@ class _MyAppState extends State<MyApp> {
   void _startAsyncResponse(String prompt) async {
     final response = await chat.generateResponse(prompt);
     setState(() {
-      messages.add(ChatMessage(
-        message: response ?? "Error en la respuesta",
-        sender: Participant.model,
-        done: true,
-      ));
+      messages.add(MessageData(
+          message: response ?? "Error en la respuesta", sender: "model"));
       isGenerating = false;
     });
   }
@@ -141,9 +125,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text("Flutter Mediapipe Chat"),
           actions: [
             IconButton(
-              icon: const Icon(Icons.folder_open),
-              onPressed: _pickModel,
-            ),
+                icon: const Icon(Icons.folder_open), onPressed: _pickModel),
           ],
         ),
         body: isModelLoading
@@ -166,9 +148,7 @@ class _MyAppState extends State<MyApp> {
               style: TextStyle(fontSize: 16)),
           const SizedBox(height: 20),
           ElevatedButton(
-            onPressed: _pickModel,
-            child: const Text("Cargar Modelo"),
-          ),
+              onPressed: _pickModel, child: const Text("Cargar Modelo")),
         ],
       ),
     );
@@ -179,10 +159,9 @@ class _MyAppState extends State<MyApp> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "Modelo: ${modelPath!.split('/').last}",
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
+          child: Text("Modelo: ${modelPath!.split('/').last}",
+              style:
+                  const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ),
         Expanded(
           child: ListView.builder(
@@ -190,7 +169,7 @@ class _MyAppState extends State<MyApp> {
             itemCount: messages.length,
             itemBuilder: (context, index) {
               final msg = messages[index];
-              return ChatBubble(chatMessage: msg);
+              return ChatBubble(messageData: msg);
             },
           ),
         ),
@@ -215,10 +194,9 @@ class _MyAppState extends State<MyApp> {
                 const Padding(
                   padding: EdgeInsets.only(left: 10),
                   child: SizedBox(
-                    width: 25,
-                    height: 25,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
+                      width: 25,
+                      height: 25,
+                      child: CircularProgressIndicator(strokeWidth: 2)),
                 )
               else
                 Row(
@@ -244,21 +222,19 @@ class _MyAppState extends State<MyApp> {
 }
 
 class ChatBubble extends StatelessWidget {
-  final ChatMessage chatMessage;
-
-  const ChatBubble({super.key, required this.chatMessage});
+  final MessageData messageData;
+  const ChatBubble({super.key, required this.messageData});
 
   @override
   Widget build(BuildContext context) {
-    final isUserMessage = chatMessage.sender == Participant.user;
-
+    final isUser = messageData.sender == "user";
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
       child: Row(
         mainAxisAlignment:
-            isUserMessage ? MainAxisAlignment.end : MainAxisAlignment.start,
+            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
-          if (!isUserMessage)
+          if (!isUser)
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 8),
               child: CircleAvatar(
@@ -271,13 +247,12 @@ class ChatBubble extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
               decoration: BoxDecoration(
-                color: isUserMessage ? Colors.blue[300] : Colors.grey[300],
+                color: isUser ? Colors.blue[300] : Colors.grey[300],
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Text(
-                chatMessage.message,
-                style: TextStyle(
-                    color: isUserMessage ? Colors.white : Colors.black87),
+                messageData.message,
+                style: TextStyle(color: isUser ? Colors.white : Colors.black87),
               ),
             ),
           ),
@@ -289,7 +264,6 @@ class ChatBubble extends StatelessWidget {
 
 class LoadingAnimation extends StatelessWidget {
   const LoadingAnimation({super.key});
-
   @override
   Widget build(BuildContext context) {
     return const CircularProgressIndicator();

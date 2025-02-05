@@ -1,34 +1,58 @@
-import Foundation
 import Flutter
+import Foundation
 import MediaPipeTasksGenAI
 import MediaPipeTasksGenAIC
 
 @available(iOS 13.0, *)
 class InferenceController {
-    private var inference: LlmInference?
+    private var inferenceModel: InferenceModel?
+    private var temperature: Float
+    private var randomSeed: Int
+    private var topK: Int
+    private var supportedLoraRanks: [Int]?
+    private var loraPath: String?
+    private var inferenceSession: InferenceSession?
     private var eventSink: FlutterEventSink?
-    private var config: ModelConfig
 
     init(config: ModelConfig) throws {
-        self.config = config
-        self.inference = try InferenceSession.createInferenceModel(config: config)
+        self.temperature = config.temperature
+        self.topK = config.topK
+        self.randomSeed = config.randomSeed
+        self.supportedLoraRanks = config.supportedLoraRanks
+        self.loraPath = config.loraPath
+        let modelFilePath = (config.loraPath?.isEmpty == false) ? config.loraPath! : config.path
+        self.inferenceModel = try InferenceModel(modelPath: modelFilePath, maxTokens: config.maxTokens, supportedLoraRanks: config.supportedLoraRanks)
     }
 
     func generateResponse(prompt: String) throws -> String {
-        let session = try InferenceSession(inference: inference!, config: config)
-        return try session.generateResponse(prompt: prompt)
+        if inferenceSession != nil {
+            inferenceSession = nil
+        }
+        inferenceSession = try InferenceSession(
+            inference: inferenceModel!.inference,
+            temperature: temperature,
+            randomSeed: randomSeed,
+            topK: topK,
+            loraPath: loraPath)
+        return try inferenceSession!.generateResponse(prompt: prompt)
     }
 
     func generateResponseStream(prompt: String) async throws {
-        let session = try InferenceSession(inference: inference!, config: config)
-        let responseStream = try session.generateResponseAsync(prompt: prompt)
-
+        if inferenceSession != nil {
+            inferenceSession = nil
+        }
+        inferenceSession = try InferenceSession(
+            inference: inferenceModel!.inference,
+            temperature: temperature,
+            randomSeed: randomSeed,
+            topK: topK,
+            loraPath: loraPath)
+        let responseStream = try inferenceSession!.generateResponseAsync(prompt: prompt)
         for try await token in responseStream {
             DispatchQueue.main.async {
                 self.eventSink?(token)
             }
         }
-
         DispatchQueue.main.async {
             self.eventSink?(nil)
         }
@@ -40,5 +64,10 @@ class InferenceController {
 
     func clearEventSink() {
         self.eventSink = nil
+    }
+
+    func close() {
+        inferenceModel = nil
+        inferenceSession = nil
     }
 }

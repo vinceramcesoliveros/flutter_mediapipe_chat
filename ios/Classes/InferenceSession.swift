@@ -2,7 +2,6 @@ import Foundation
 import MediaPipeTasksGenAI
 import MediaPipeTasksGenAIC
 
-@available(iOS 13.0, *)
 final class InferenceSession {
     private let session: LlmInference.Session
 
@@ -17,6 +16,14 @@ final class InferenceSession {
         options.temperature = config.temperature
         options.topk = config.topK
         options.randomSeed = config.randomSeed
+        self.session = try LlmInference.Session(llmInference: inference, options: options)
+    }
+
+    init(inference: LlmInference, temperature: Float, randomSeed: Int, topK: Int, loraPath: String? = nil) throws {
+        let options = LlmInference.Session.Options()
+        options.temperature = temperature
+        options.randomSeed = randomSeed
+        options.topk = topK
         self.session = try LlmInference.Session(llmInference: inference, options: options)
     }
 

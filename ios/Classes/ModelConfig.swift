@@ -6,6 +6,8 @@ struct ModelConfig {
     let maxTokens: Int
     let topK: Int
     let randomSeed: Int
+    let loraPath: String?
+    let supportedLoraRanks: [Int]?
 
     init(dictionary: [String: Any]) throws {
         guard let path = dictionary["path"] as? String else {
@@ -16,5 +18,7 @@ struct ModelConfig {
         self.maxTokens = dictionary["maxTokens"] as? Int ?? 1024
         self.topK = dictionary["topK"] as? Int ?? 40
         self.randomSeed = dictionary["randomSeed"] as? Int ?? 0
+        self.loraPath = dictionary["loraPath"] as? String
+        self.supportedLoraRanks = dictionary["supportedLoraRanks"] as? [Int]
     }
 }

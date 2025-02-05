@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:flutter_mediapipe_chat/models/models.dart';
+import 'package:flutter_mediapipe_chat/models/model_config.dart';
 import 'flutter_mediapipe_chat_platform_interface.dart';
 
 class MethodChannelFlutterMediapipeChat extends FlutterMediapipeChatPlatform {

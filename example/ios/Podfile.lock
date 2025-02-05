@@ -36,8 +36,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_mediapipe_chat (1.0.0):
     - Flutter
-    - MediaPipeTasksGenAI (= 0.10.20)
-    - MediaPipeTasksGenAIC (= 0.10.20)
+    - MediaPipeTasksGenAI
+    - MediaPipeTasksGenAIC
   - integration_test (0.0.1):
     - Flutter
   - MediaPipeTasksGenAI (0.10.20):
@@ -78,7 +78,7 @@ SPEC CHECKSUMS:
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   file_picker: b159e0c068aef54932bb15dc9fd1571818edaf49
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_mediapipe_chat: 6974fc28c391f8f29b6f85ffe0cb1da9d1c950b7
+  flutter_mediapipe_chat: f4da3d848eef55e9837dd54d1ae2841b1a341979
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
   MediaPipeTasksGenAI: 26d0c1cd0aac100d1651a37477748287aca2bf31
   MediaPipeTasksGenAIC: f7dc1fc6a11654b24c536579c7eb10471621fa7b

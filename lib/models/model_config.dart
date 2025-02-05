@@ -4,6 +4,8 @@ class ModelConfig {
   final int maxTokens;
   final int topK;
   final int randomSeed;
+  final String? loraPath;
+  final List<int>? supportedLoraRanks;
 
   ModelConfig({
     required this.path,
@@ -11,25 +13,24 @@ class ModelConfig {
     this.maxTokens = 1024,
     this.topK = 40,
     this.randomSeed = 0,
+    this.loraPath,
+    this.supportedLoraRanks,
   });
 
   Map<String, dynamic> toMap() {
-    return {
-      "path": path,
-      "temperature": temperature,
-      "maxTokens": maxTokens,
-      "topK": topK,
-      "randomSeed": randomSeed,
+    final map = <String, dynamic>{
+      'path': path,
+      'temperature': temperature,
+      'maxTokens': maxTokens,
+      'topK': topK,
+      'randomSeed': randomSeed,
     };
-  }
-
-  factory ModelConfig.fromMap(Map<String, dynamic> map) {
-    return ModelConfig(
-      path: map["path"],
-      temperature: map["temperature"] ?? 0.8,
-      maxTokens: map["maxTokens"] ?? 1024,
-      topK: map["topK"] ?? 40,
-      randomSeed: map["randomSeed"] ?? 0,
-    );
+    if (loraPath != null) {
+      map['loraPath'] = loraPath;
+    }
+    if (supportedLoraRanks != null) {
+      map['supportedLoraRanks'] = supportedLoraRanks;
+    }
+    return map;
   }
 }
