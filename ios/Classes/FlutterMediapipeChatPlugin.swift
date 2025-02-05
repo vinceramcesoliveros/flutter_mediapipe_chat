@@ -1,3 +1,4 @@
+
 import Flutter
 import UIKit
 
@@ -14,7 +15,7 @@ public class FlutterMediapipeChatPlugin: NSObject, FlutterPlugin {
         eventChannel.setStreamHandler(instance)
     }
 
-    @MainActor 
+    @MainActor
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
         case "loadModel":
@@ -72,7 +73,6 @@ extension FlutterMediapipeChatPlugin: FlutterStreamHandler {
         inferenceController?.setEventSink(eventSink: events)
         return nil
     }
-
     public func onCancel(withArguments arguments: Any?) -> FlutterError? {
         self.eventSink = nil
         inferenceController?.clearEventSink()

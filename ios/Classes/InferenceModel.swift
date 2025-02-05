@@ -1,3 +1,4 @@
+
 import Foundation
 import MediaPipeTasksGenAI
 import MediaPipeTasksGenAIC
@@ -5,7 +6,7 @@ import MediaPipeTasksGenAIC
 struct InferenceModel {
     private(set) var inference: LlmInference
 
-    init(modelPath: String, maxTokens: Int, supportedLoraRanks: [Int]?) throws {
+    init(modelPath: String, maxTokens: Int, supportedLoraRanks: [Int]?, loraPath: String?) throws {
         let llmOptions = LlmInference.Options(modelPath: modelPath)
         llmOptions.maxTokens = maxTokens
         if let supportedLoraRanks = supportedLoraRanks {

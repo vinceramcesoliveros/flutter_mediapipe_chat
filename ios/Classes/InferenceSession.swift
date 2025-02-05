@@ -1,3 +1,4 @@
+
 import Foundation
 import MediaPipeTasksGenAI
 import MediaPipeTasksGenAIC
@@ -16,6 +17,9 @@ final class InferenceSession {
         options.temperature = config.temperature
         options.topk = config.topK
         options.randomSeed = config.randomSeed
+        if let lora = config.loraPath, !lora.isEmpty {
+            options.loraPath = lora
+        }
         self.session = try LlmInference.Session(llmInference: inference, options: options)
     }
 
@@ -24,6 +28,9 @@ final class InferenceSession {
         options.temperature = temperature
         options.randomSeed = randomSeed
         options.topk = topK
+        if let lora = loraPath, !lora.isEmpty {
+            options.loraPath = lora
+        }
         self.session = try LlmInference.Session(llmInference: inference, options: options)
     }
 
