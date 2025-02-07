@@ -1,4 +1,4 @@
-package com.example.flutter_mediapipe_chat
+package com.juandpt.flutter_mediapipe_chat
 
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel

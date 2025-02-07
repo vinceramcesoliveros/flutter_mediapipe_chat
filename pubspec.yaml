@@ -23,7 +23,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.example.flutter_mediapipe_chat
+        package: com.juandpt.flutter_mediapipe_chat
         pluginClass: FlutterMediapipeChatPlugin
       ios:
         pluginClass: FlutterMediapipeChatPlugin
