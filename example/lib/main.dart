@@ -51,8 +51,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _pickModel() async {
-    FilePickerResult? result =
-        await FilePicker.platform.pickFiles(type: FileType.any);
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
     if (result != null) {
       setState(() {
         modelPath = result.files.single.path;
