@@ -147,11 +147,9 @@ class ChatScreenState extends State<ChatScreen> {
           );
         }
         return Scaffold(
-          backgroundColor: colors.surface,
           appBar: AppBar(
-            backgroundColor: colors.surface,
             title: Text(
-              "AI Chatbot Example",
+              "Local AI Chat",
               style: styles.titleLarge?.copyWith(color: colors.onSurface),
             ),
             actions: [

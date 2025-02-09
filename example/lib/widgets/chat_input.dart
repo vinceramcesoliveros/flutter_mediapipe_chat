@@ -17,32 +17,36 @@ class ChatInput extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     final styles = Theme.of(context).textTheme;
     return Container(
-      color: Colors.black,
-      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(color: colors.surface),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       child: Row(
         children: [
           Expanded(
             child: TextField(
               controller: controller,
+              maxLines: null,
               style: styles.bodyMedium?.copyWith(color: Colors.white),
               decoration: InputDecoration(
                 hintText: "Write a message...",
                 hintStyle: styles.labelMedium?.copyWith(color: Colors.grey),
-                filled: true,
-                fillColor: Colors.grey[900],
-                border: const OutlineInputBorder(),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
-                ),
-                suffixIcon: isGenerating
-                    ? const CircularProgressIndicator.adaptive()
-                    : IconButton(
-                        onPressed: onSend,
-                        icon: Icon(Icons.send, color: colors.primary),
-                      ),
+                border: InputBorder.none,
               ),
             ),
           ),
+          if (isGenerating)
+            CircularProgressIndicator.adaptive()
+          else
+            InkWell(
+              onTap: onSend,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: colors.onSurface,
+                  shape: BoxShape.circle,
+                ),
+                padding: const EdgeInsets.all(4),
+                child: Icon(Icons.arrow_upward, color: colors.surface),
+              ),
+            ),
         ],
       ),
     );
