@@ -118,6 +118,7 @@ class ChatScreenState extends State<ChatScreen> {
       viewModel.sendMessageSynchronous(prompt);
       return;
     }
+    FocusScope.of(context).unfocus();
     viewModel.sendMessageStreaming(prompt);
   }
 
@@ -146,20 +147,23 @@ class ChatScreenState extends State<ChatScreen> {
             scrollToBottom: _scrollToBottom,
           );
         }
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "Local AI Chat",
-              style: styles.titleLarge?.copyWith(color: colors.onSurface),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.folder_open, color: colors.onSurface),
-                onPressed: _pickModel,
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                "Local AI Chat",
+                style: styles.titleLarge?.copyWith(color: colors.onSurface),
               ),
-            ],
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.folder_open, color: colors.onSurface),
+                  onPressed: _pickModel,
+                ),
+              ],
+            ),
+            body: bodyContent,
           ),
-          body: bodyContent,
         );
       },
     );

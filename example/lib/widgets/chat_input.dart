@@ -17,7 +17,13 @@ class ChatInput extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     final styles = Theme.of(context).textTheme;
     return Container(
-      decoration: BoxDecoration(color: colors.surface),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16),
+          topRight: Radius.circular(16),
+        ),
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
       child: Row(
         children: [
