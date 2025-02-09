@@ -6,6 +6,8 @@ import 'package:flutter_mediapipe_chat_example/models/message.dart';
 import 'package:flutter_mediapipe_chat_example/view_models/chat_view_model.dart';
 import 'package:flutter_mediapipe_chat_example/widgets/widgets.dart';
 
+/// This screen allows users to load a model, select a chat mode,
+/// and send messages. It demonstrates both synchronous and streaming usage.
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
 

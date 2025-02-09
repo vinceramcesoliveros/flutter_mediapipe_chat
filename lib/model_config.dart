@@ -1,5 +1,14 @@
 part of 'flutter_mediapipe_chat.dart';
 
+/// A configuration class for the inference model.
+///
+/// Contains parameters such as:
+/// - [path]: The path to the model file.
+/// - [temperature]: Controls the creativity of the response.
+/// - [maxTokens]: Maximum number of tokens to generate.
+/// - [topK]: Sampling parameter for response generation.
+/// - [randomSeed]: Seed for randomness.
+/// - [loraPath] and [supportedLoraRanks]: Optional parameters for fine-tuning.
 class ModelConfig {
   final String path;
   final double temperature;
@@ -19,6 +28,7 @@ class ModelConfig {
     this.supportedLoraRanks,
   });
 
+  /// Converts this [ModelConfig] into a [Map] for use with native code.
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{
       'path': path,

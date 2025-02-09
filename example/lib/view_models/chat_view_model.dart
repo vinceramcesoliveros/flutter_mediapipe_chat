@@ -4,6 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_mediapipe_chat/flutter_mediapipe_chat.dart';
 import 'package:flutter_mediapipe_chat_example/models/message.dart';
 
+/// The ViewModel responsible for managing the chat logic,
+/// including model loading, sending messages, and handling streaming responses.
 class ChatViewModel extends ChangeNotifier {
   final FlutterMediapipeChat chatPlugin;
   final List<Message> messages = [];
