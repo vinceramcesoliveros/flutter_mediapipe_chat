@@ -48,7 +48,7 @@ class FlutterMediapipeChatPlugin : FlutterPlugin, MethodCallHandler, EventChanne
                     result.error("INFERENCE_ERROR", e.localizedMessage, null)
                 }
             }
-            "generateResponseStream" -> {
+            "generateResponseAsync" -> {
                 try {
                     val prompt = call.argument<String>("prompt") ?: throw IllegalArgumentException("Missing 'prompt'")
                     inferenceModel?.generateResponseAsync(prompt)

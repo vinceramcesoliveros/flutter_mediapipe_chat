@@ -37,7 +37,7 @@ class InferenceController {
         return try inferenceSession!.generateResponse(prompt: prompt)
     }
     
-    func generateResponseStream(prompt: String) async throws {
+    func generateResponseAsync(prompt: String) async throws {
         if inferenceSession != nil { inferenceSession = nil }
         inferenceSession = try InferenceSession(inference: inferenceModel!.inference, temperature: temperature, randomSeed: randomSeed, topK: topK, loraPath: loraPath)
         let responseStream = try inferenceSession!.generateResponseAsync(prompt: prompt)

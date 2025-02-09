@@ -1,3 +1,5 @@
+part of 'flutter_mediapipe_chat.dart';
+
 class ModelConfig {
   final String path;
   final double temperature;

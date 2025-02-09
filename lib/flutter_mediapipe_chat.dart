@@ -1,7 +1,12 @@
-import 'dart:async';
-import 'package:flutter_mediapipe_chat/models/model_config.dart';
+library;
 
-import 'flutter_mediapipe_chat_platform_interface.dart';
+import 'dart:async';
+import 'package:flutter/services.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
+
+part 'model_config.dart';
+part 'flutter_mediapipe_chat_platform_interface.dart';
+part 'flutter_mediapipe_chat_method_channel.dart';
 
 class FlutterMediapipeChat {
   Future<void> loadModel(ModelConfig config) {
@@ -12,7 +17,7 @@ class FlutterMediapipeChat {
     return FlutterMediapipeChatPlatform.instance.generateResponse(prompt);
   }
 
-  Stream<String> generateResponseStream(String prompt) {
-    return FlutterMediapipeChatPlatform.instance.generateResponseStream(prompt);
+  Stream<String> generateResponseAsync(String prompt) {
+    return FlutterMediapipeChatPlatform.instance.generateResponseAsync(prompt);
   }
 }

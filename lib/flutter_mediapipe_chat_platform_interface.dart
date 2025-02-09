@@ -1,8 +1,4 @@
-import 'dart:async';
-import 'package:flutter_mediapipe_chat/models/model_config.dart';
-import 'package:plugin_platform_interface/plugin_platform_interface.dart';
-
-import 'flutter_mediapipe_chat_method_channel.dart';
+part of 'flutter_mediapipe_chat.dart';
 
 abstract class FlutterMediapipeChatPlatform extends PlatformInterface {
   FlutterMediapipeChatPlatform() : super(token: _token);
@@ -18,5 +14,5 @@ abstract class FlutterMediapipeChatPlatform extends PlatformInterface {
 
   Future<void> loadModel(ModelConfig config);
   Future<String?> generateResponse(String prompt);
-  Stream<String> generateResponseStream(String prompt);
+  Stream<String> generateResponseAsync(String prompt);
 }

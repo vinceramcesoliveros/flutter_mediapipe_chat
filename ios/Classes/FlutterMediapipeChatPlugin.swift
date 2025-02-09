@@ -42,7 +42,7 @@ public class FlutterMediapipeChatPlugin: NSObject, FlutterPlugin {
             } catch {
                 result(FlutterError(code: "INFERENCE_ERROR", message: error.localizedDescription, details: nil))
             }
-        case "generateResponseStream":
+        case "generateResponseAsync":
             guard let arguments = call.arguments as? [String: Any],
                   let prompt = arguments["prompt"] as? String else {
                 result(FlutterError(code: "INVALID_ARGUMENTS", message: "Prompt is required", details: nil))
@@ -50,7 +50,7 @@ public class FlutterMediapipeChatPlugin: NSObject, FlutterPlugin {
             }
             Task {
                 do {
-                    try await inferenceController?.generateResponseStream(prompt: prompt)
+                    try await inferenceController?.generateResponseAsync(prompt: prompt)
                     DispatchQueue.main.async {
                         result(nil)
                     }
