@@ -174,7 +174,7 @@ class EmptyChatPlaceholder extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     return Center(
       child: Icon(
-        Icons.smart_toy_rounded,
+        Icons.chat_bubble_outline,
         size: 100,
         color: colors.outline,
       ),
@@ -202,6 +202,7 @@ class BodyNoModel extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final styles = Theme.of(context).textTheme;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -220,6 +221,22 @@ class BodyNoModel extends StatelessWidget {
               "Load Model",
               style: styles.labelLarge?.copyWith(color: colors.onPrimary),
             ),
+          ),
+          IconButton(
+            icon: Icon(Icons.cloud_download_outlined),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (dialogContext) {
+                  return AlertDialog.adaptive(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    content: const DownloadModelInfo(),
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
