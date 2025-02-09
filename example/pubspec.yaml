@@ -3,6 +3,7 @@ description: "Demonstrates how to use the flutter_mediapipe_chat plugin."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
 
 environment:
   sdk: ^3.6.1
@@ -17,8 +18,6 @@ dependencies:
   flutter:
     sdk: flutter
   file_picker: ^8.3.1
-  flutter_riverpod: ^2.6.1
-
   flutter_mediapipe_chat:
     # When depending on this package from a real application you should use:
     #   flutter_mediapipe_chat: ^x.y.z
