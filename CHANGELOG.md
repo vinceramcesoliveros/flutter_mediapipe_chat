@@ -1,3 +1,3 @@
-## 0.0.1
+## 1.0.0 - 2025-02-09
 
-* TODO: Describe initial release.
+- Initial release of Flutter MediaPipe Chat.
