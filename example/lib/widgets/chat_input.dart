@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mediapipe_chat_example/widgets/custom_loading.dart';
 
 class ChatInput extends StatelessWidget {
   final TextEditingController controller;
@@ -36,7 +35,7 @@ class ChatInput extends StatelessWidget {
                   borderSide: BorderSide(color: Colors.transparent),
                 ),
                 suffixIcon: isGenerating
-                    ? const CustomLoading()
+                    ? const CircularProgressIndicator.adaptive()
                     : IconButton(
                         onPressed: onSend,
                         icon: Icon(Icons.send, color: colors.primary),

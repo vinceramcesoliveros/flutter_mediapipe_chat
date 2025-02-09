@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class CustomLoading extends StatelessWidget {
-  const CustomLoading({super.key});
+  final Alignment alignment;
+  const CustomLoading({
+    super.key,
+    this.alignment = Alignment.center,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CircularProgressIndicator(),
+    return Align(
+      alignment: alignment,
+      child: CircularProgressIndicator.adaptive(),
     );
   }
 }
